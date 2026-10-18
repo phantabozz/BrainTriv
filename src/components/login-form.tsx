@@ -11,20 +11,33 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 
+import { useState } from "react"
+
+// Login and Register Form
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+
+  const [isSignup, setIsSignup] = useState(false);
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form 
+            className={cn(
+              "p-6 md:p-8 transition-transform duration-500 ease-in-out",
+              isSignup ? "md:translate-x-full" : "md:translate-x-0"
+            )}
+          >
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
-                <h1 className="text-2xl font-bold">Welcome back</h1>
+                <h1 className="text-2xl font-bold">
+                  {isSignup ? "Create an account" : "Welcome back"}
+                </h1>
                 <p className="text-balance text-muted-foreground">
-                  Login to your BrainTriv account
+                  {isSignup ? "Create your BrainTriv account" : "Login to your BrainTriv account"}
                 </p>
               </div>
               <Field>
@@ -36,6 +49,19 @@ export function LoginForm({
                   required
                 />
               </Field>
+              {isSignup && (
+                <Field>
+                  <div className="flex items-center">
+                    <FieldLabel htmlFor="username">Username</FieldLabel>
+                    <a
+                      href="#"
+                      className="ml-auto text-sm underline-offset-2 hover:underline"
+                    >
+                    </a>
+                  </div>
+                  <Input id="username" placeholder="username" type="text" required />
+                </Field>
+              )}
               <Field>
                 <div className="flex items-center">
                   <FieldLabel htmlFor="password">Password</FieldLabel>
@@ -43,13 +69,28 @@ export function LoginForm({
                     href="#"
                     className="ml-auto text-sm underline-offset-2 hover:underline"
                   >
-                    Forgot your password?
+                    {isSignup ? "" : "Forgot your password?"}
                   </a>
                 </div>
                 <Input id="password" placeholder="password" type="password" required />
               </Field>
+              {isSignup && (
+                <Field>
+                  <div className="flex items-center">
+                    <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
+                    <a
+                      href="#"
+                      className="ml-auto text-sm underline-offset-2 hover:underline"
+                    >
+                    </a>
+                  </div>
+                  <Input id="confirmPassword" placeholder="confirm password" type="password" required />
+                </Field>
+              )}
               <Field>
-                <Button type="submit">Login</Button>
+                <Button type="submit">
+                  {isSignup ? "Create account" : "Login"}
+                </Button>
               </Field>
               <FieldSeparator className="*:data-[slot=field-separator-content]:bg-card">
                 Or continue with
@@ -84,16 +125,36 @@ export function LoginForm({
                 </Button>
               </Field>
               <FieldDescription className="text-center">
-                Don&apos;t have an account? <a href="#">Sign up</a>
+                {isSignup ? "Already have an account?" : "New to BrainTriv?"}
+                <Button 
+                  onClick={() => setIsSignup(!isSignup)}
+                  variant="link"
+                >
+                  {isSignup ? "Login" : "Sign up"}
+                </Button>
               </FieldDescription>
             </FieldGroup>
           </form>
-          <div className="relative hidden bg-blue-200 md:block">
-            <img
-              src="src/assets/artificial-intelligence-14077.svg"
-              alt="brain-logo"
-              className="absolute inset-0 h-full w-full object-contain dark:brightness-[0.2] dark:grayscale"
-            />
+          <div 
+            className={cn(
+              "relative hidden bg-blue-200 md:block transition-transform duration-500 ease-in-out",
+              isSignup ? "md:-translate-x-full" : "md:translate-x-0"
+            )}
+          > 
+            {!isSignup && (
+              <img
+                src="src/assets/artificial-intelligence-14077.svg"
+                alt="brain-img"
+                className="absolute inset-0 h-full w-full object-contain dark:brightness-[0.2] dark:grayscale"
+              />
+            )}
+            {isSignup && (
+              <img
+                src="src/assets/vecteezy_teamwork-people-holding-the-puzzle-team-work-that-gets_13810006.svg"
+                alt="puzzle-img"
+                className="absolute inset-0 h-full w-full object-contain dark:brightness-[0.2] dark:grayscale bg-rose-500"
+              />
+            )}
           </div>
         </CardContent>
       </Card>
