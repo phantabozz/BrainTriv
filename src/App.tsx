@@ -1,11 +1,17 @@
 import { LoginRegisterPage } from '@/pages/LoginRegisterPage'
+import { Routes, Route, BrowserRouter } from 'react-router'
 import './App.css'
 
 function App() {
 
   return (
     <>
-      <LoginRegisterPage />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<LoginRegisterPage />} />
+          <Route path="/register" element={<LoginRegisterPage />} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }

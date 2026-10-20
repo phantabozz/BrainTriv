@@ -1,10 +1,10 @@
-import { LoginForm } from '@/components/login-form'
+import { LoginRegisterForm } from '@/components/login-register-form'
 
 export function LoginRegisterPage() {
-  
+
   return (
     <div className="flex w-full h-screen justify-center items-center">
-      <LoginForm
+      <LoginRegisterForm
         className="w-4xl"
       />
     </div>

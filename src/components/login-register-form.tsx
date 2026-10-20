@@ -11,15 +11,22 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 
-import { useState } from "react"
+import { useNavigate, useLocation } from "react-router"
 
 // Login and Register Form
-export function LoginForm({
+export function LoginRegisterForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
 
-  const [isSignup, setIsSignup] = useState(false);
+  // const [isSignup, setIsSignup] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isSignup = location.pathname === "/register";
+
+  console.log(location.pathname)
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -127,7 +134,7 @@ export function LoginForm({
               <FieldDescription className="text-center">
                 {isSignup ? "Already have an account?" : "New to BrainTriv?"}
                 <Button 
-                  onClick={() => setIsSignup(!isSignup)}
+                  onClick={() => navigate(isSignup ? "/login" : "/register")}
                   variant="link"
                 >
                   {isSignup ? "Login" : "Sign up"}
