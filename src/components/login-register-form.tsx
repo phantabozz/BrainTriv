@@ -19,8 +19,6 @@ export function LoginRegisterForm({
   ...props
 }: React.ComponentProps<"div">) {
 
-  // const [isSignup, setIsSignup] = useState(false);
-
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -152,14 +150,14 @@ export function LoginRegisterForm({
               <img
                 src="src/assets/artificial-intelligence-14077.svg"
                 alt="brain-img"
-                className="absolute inset-0 h-full w-full object-contain dark:brightness-[0.2] dark:grayscale"
+                className="absolute inset-0 h-full w-full object-contain dark:brightness-[0.8]"
               />
             )}
             {isSignup && (
               <img
                 src="src/assets/vecteezy_teamwork-people-holding-the-puzzle-team-work-that-gets_13810006.svg"
                 alt="puzzle-img"
-                className="absolute inset-0 h-full w-full object-contain dark:brightness-[0.2] dark:grayscale bg-rose-500"
+                className="absolute inset-0 h-full w-full object-contain dark:brightness-[0.8] bg-rose-500"
               />
             )}
           </div>
