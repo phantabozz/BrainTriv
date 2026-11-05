@@ -8,7 +8,10 @@ export const Route = createFileRoute('/_auth')({
 function AuthLayout() {
   return (
     <>
-      <div className="flex w-full h-screen justify-center items-center">
+      <video className="absolute h-screen w-full object-cover" autoPlay muted loop>
+        <source src="videos/15863507-uhd_3840_2160_30fps.mp4"/>
+      </video>
+      <div className="flex relative w-full h-screen justify-center items-center">
         <LoginRegisterForm
           className="w-4xl"
         />
