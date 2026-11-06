@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 
+import loginLogo from "../assets/artificial-intelligence-14077.svg"
+import registerLogo from "../assets/vecteezy_teamwork-people-holding-the-puzzle-team-work-that-gets_13810006.svg"
+
 import { useNavigate, useLocation } from "@tanstack/react-router"
 
 // Login and Register Form
@@ -147,14 +150,14 @@ export function LoginRegisterForm({
           > 
             {!isSignup && (
               <img
-                src="src/assets/artificial-intelligence-14077.svg"
+                src={loginLogo}
                 alt="brain-img"
                 className="absolute inset-0 h-full w-full object-contain dark:brightness-[0.8]"
               />
             )}
             {isSignup && (
               <img
-                src="src/assets/vecteezy_teamwork-people-holding-the-puzzle-team-work-that-gets_13810006.svg"
+                src={registerLogo}
                 alt="puzzle-img"
                 className="absolute inset-0 h-full w-full object-contain dark:brightness-[0.8] bg-rose-500"
               />

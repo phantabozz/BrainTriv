@@ -15,11 +15,14 @@ import {
 } from "@/components/ui/sidebar"
 import { LayoutDashboardIcon, ChartBarIcon, FolderIcon, UsersIcon, CameraIcon, FileTextIcon, Settings2Icon, CircleHelpIcon, SearchIcon, DatabaseIcon, FileChartColumnIcon } from "lucide-react"
 
+import puzzleLogo from "../assets/puzzle-svgrepo-com.svg"
+import avatarImg from "../assets/test01ProfilePic.jpeg"
+
 const data = {
   user: {
     name: "test01",
     email: "test01@example.com",
-    avatar: "src/assets/test01ProfilePic.jpeg",
+    avatar: avatarImg,
   },
   navMain: [
     {
@@ -167,7 +170,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:p-1.5!"
               render={<a href="#" />}
             >
-              <img className="size-12" src="src/assets/puzzle-svgrepo-com.svg" />
+              <img className="size-12" src={puzzleLogo} />
               <span className="text-base font-semibold">BrainTriv</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
