@@ -1,12 +1,36 @@
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel, FieldSeparator } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
 
+type LoginFormType = {
+  email: string,
+  password: string
+};
 
 export function LoginForm() {
 
+  const {register, handleSubmit} = useForm<LoginFormType>();
+
+  const onSubmit = async (data: LoginFormType) => {
+    try {
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      
+      console.log(response);
+
+      if (!response.ok) throw new Error("Network error")
+      console.log("Submitted successfully:", await response.json());
+    } catch (error) {
+      console.error("Submission failed:", error);
+    }
+  }
+
   return (
-    <>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <FieldGroup>
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">
@@ -23,7 +47,8 @@ export function LoginForm() {
             type="email"
             placeholder="john23@email.com"
             required
-            />
+            {...register("email", { required: true })}
+          />
         </Field>
         <Field>
           <div className="flex items-center">
@@ -35,7 +60,9 @@ export function LoginForm() {
             Forgot your password?
             </a>
           </div>
-          <Input id="password" placeholder="password" type="password" required />
+          <Input id="password" placeholder="password" type="password" required 
+            {...register("password", { required: true })} 
+          />
         </Field>
         <Field>
           <Button type="submit">
@@ -75,6 +102,6 @@ export function LoginForm() {
           </Button>
         </Field>
       </FieldGroup>
-    </>
+    </form>
   )
 }

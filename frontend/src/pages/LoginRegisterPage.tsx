@@ -1,4 +1,4 @@
-import { LoginRegisterForm } from '@/components/login-register-form'
+import { LoginRegisterForm } from '@/features/auth/components/login-register-form'
 
 export function LoginRegisterPage() {
 

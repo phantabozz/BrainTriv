@@ -1,12 +1,36 @@
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel, FieldSeparator } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
 
+type RegisterFormType = {
+  email: string,
+  username: string,
+  password: string,
+  confirmPassword: string
+};
 
 export function RegisterForm() {
 
+  const {register, handleSubmit} = useForm<RegisterFormType>();
+
+  const onSubmit = async (data: RegisterFormType) => {
+    try {
+      const response = await fetch("http://localhost:3000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) throw new Error("Network error")
+      console.log("Submitted successfully:", await response.json());
+    } catch (error) {
+      console.error("Submission failed:", error);
+    }
+  }
+
   return (
-    <>
+    <form onSubmit={handleSubmit(onSubmit)}> 
       <FieldGroup>
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">
@@ -23,6 +47,7 @@ export function RegisterForm() {
             type="email"
             placeholder="john23@email.com"
             required
+            {...register("email", {required: true})}
             />
         </Field>
         <Field>
@@ -34,7 +59,9 @@ export function RegisterForm() {
               >
             </a>
           </div>
-          <Input id="username" placeholder="username" type="text" required />
+          <Input id="username" placeholder="username" type="text" required 
+            {...register("username", {required: true})}
+          />
         </Field>
         <Field>
           <div className="flex items-center">
@@ -45,7 +72,13 @@ export function RegisterForm() {
               >
             </a>
           </div>
-          <Input id="password" placeholder="password" type="password" required />
+          <Input 
+            id="password" 
+            placeholder="password" 
+            type="password" 
+            required 
+            {...register("password", {required: true})}
+          />
         </Field>
         <Field>
           <div className="flex items-center">
@@ -56,7 +89,13 @@ export function RegisterForm() {
               >
             </a>
           </div>
-          <Input id="confirmPassword" placeholder="confirm password" type="password" required />
+          <Input 
+            id="confirmPassword" 
+            placeholder="confirm password" 
+            type="password" 
+            required 
+            {...register("confirmPassword", {required: true})}
+          />
         </Field>
         <Field>
           <Button type="submit">
@@ -96,6 +135,6 @@ export function RegisterForm() {
           </Button>
         </Field>
       </FieldGroup>
-    </>
+    </form>
   )
 }

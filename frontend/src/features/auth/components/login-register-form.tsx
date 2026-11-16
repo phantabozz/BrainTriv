@@ -7,8 +7,8 @@ import {
   FieldGroup,
 } from "@/components/ui/field"
 
-import loginLogo from "../assets/artificial-intelligence-14077.svg"
-import registerLogo from "../assets/vecteezy_teamwork-people-holding-the-puzzle-team-work-that-gets_13810006.svg"
+import loginLogo from "@/assets/artificial-intelligence-14077.svg"
+import registerLogo from "@/assets/vecteezy_teamwork-people-holding-the-puzzle-team-work-that-gets_13810006.svg"
 import { LoginForm } from "@/features/auth/components/forms/LoginForm"
 import { RegisterForm } from "@/features/auth/components/forms/RegisterForm"
 
@@ -25,12 +25,11 @@ export function LoginRegisterForm({
 
   const isSignup = location.pathname === "/register";
 
-
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form 
+          <div 
             className={cn(
               "p-6 md:p-8 transition-transform duration-500 ease-in-out",
               isSignup ? "md:translate-x-full" : "md:translate-x-0"
@@ -48,7 +47,7 @@ export function LoginRegisterForm({
                 </Button>
               </FieldDescription>
             </FieldGroup>
-          </form>
+          </div>
           <div 
             className={cn(
               "relative hidden bg-blue-200 md:block transition-transform duration-500 ease-in-out",
