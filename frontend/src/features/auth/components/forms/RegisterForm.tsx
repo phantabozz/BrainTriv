@@ -1,18 +1,36 @@
 import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel, FieldSeparator } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import * as z from "zod";
 
-type RegisterFormType = {
-  email: string,
-  username: string,
-  password: string,
-  confirmPassword: string
-};
+
+const RegisterFormSchema = z.object({
+  email: z.email(),
+  username: z.string(),
+  password: z.string().min(10, { message: "Password must be at least 10 characters long" }),
+  confirmPassword: z.string()
+}).refine(
+  (data) => data.password === data.confirmPassword,
+  { 
+    message: "Passwords do not match",
+    path: ["confirmPassword"]
+  }
+);
+
+type RegisterFormType = z.infer<typeof RegisterFormSchema>;
+
 
 export function RegisterForm() {
 
-  const {register, handleSubmit} = useForm<RegisterFormType>();
+  const {
+    register, 
+    handleSubmit,
+    formState: { errors }
+  } = useForm<RegisterFormType>({
+    resolver: zodResolver(RegisterFormSchema)
+  });
 
   const onSubmit = async (data: RegisterFormType) => {
     try {
@@ -48,7 +66,8 @@ export function RegisterForm() {
             placeholder="john23@email.com"
             required
             {...register("email", {required: true})}
-            />
+          />
+          {errors.email && <p className="text-red-600">{errors.email.message}</p>}
         </Field>
         <Field>
           <div className="flex items-center">
@@ -79,6 +98,7 @@ export function RegisterForm() {
             required 
             {...register("password", {required: true})}
           />
+          {errors.password && <p className="text-red-600">{errors.password.message}</p>}
         </Field>
         <Field>
           <div className="flex items-center">
@@ -96,6 +116,7 @@ export function RegisterForm() {
             required 
             {...register("confirmPassword", {required: true})}
           />
+          {errors.confirmPassword && <p className="text-red-600">{errors.confirmPassword.message}</p>}
         </Field>
         <Field>
           <Button type="submit">

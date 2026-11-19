@@ -2,15 +2,27 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel, FieldSeparator } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod"
 
-type LoginFormType = {
-  email: string,
-  password: string
-};
+
+const LoginFormSchema = z.object({
+  email: z.email(),
+  password: z.string().min(10, { message: "Password must be at least 10 characters long" })
+});
+
+type LoginFormType = z.infer<typeof LoginFormSchema>;
+
 
 export function LoginForm() {
 
-  const {register, handleSubmit} = useForm<LoginFormType>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors } 
+  } = useForm<LoginFormType>({
+    resolver: zodResolver(LoginFormSchema)
+  });
 
   const onSubmit = async (data: LoginFormType) => {
     try {
@@ -20,8 +32,6 @@ export function LoginForm() {
         body: JSON.stringify(data),
       });
       
-      console.log(response);
-
       if (!response.ok) throw new Error("Network error")
       console.log("Submitted successfully:", await response.json());
     } catch (error) {
@@ -49,6 +59,7 @@ export function LoginForm() {
             required
             {...register("email", { required: true })}
           />
+          {errors.email && <p className="text-red-600">{errors.email.message}</p>}
         </Field>
         <Field>
           <div className="flex items-center">
@@ -63,6 +74,7 @@ export function LoginForm() {
           <Input id="password" placeholder="password" type="password" required 
             {...register("password", { required: true })} 
           />
+          {errors.password && <p className="text-red-600">{errors.password.message}</p>}
         </Field>
         <Field>
           <Button type="submit">
