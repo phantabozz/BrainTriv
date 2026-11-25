@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldGroup, FieldLabel, FieldSeparator } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -24,6 +25,8 @@ type RegisterFormType = z.infer<typeof RegisterFormSchema>;
 
 export function RegisterForm() {
 
+  const navigate = useNavigate();
+
   const {
     register, 
     handleSubmit,
@@ -34,7 +37,7 @@ export function RegisterForm() {
 
   const onSubmit = async (data: RegisterFormType) => {
     try {
-      const response = await fetch("http://localhost:3000/register", {
+      const response = await fetch("http://localhost:3000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -42,8 +45,11 @@ export function RegisterForm() {
       
       if (!response.ok) throw new Error("Network error")
       console.log("Submitted successfully:", await response.json());
+
+      navigate({ to: "/dashboard" });
+
     } catch (error) {
-      console.error("Submission failed:", error);
+      console.error("Register failed:", error);
     }
   }
 

@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod"
+import { useNavigate } from "@tanstack/react-router"
 
 
 const LoginFormSchema = z.object({
@@ -16,6 +17,8 @@ type LoginFormType = z.infer<typeof LoginFormSchema>;
 
 export function LoginForm() {
 
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -26,7 +29,7 @@ export function LoginForm() {
 
   const onSubmit = async (data: LoginFormType) => {
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("http://localhost:3000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -34,8 +37,12 @@ export function LoginForm() {
       
       if (!response.ok) throw new Error("Network error")
       console.log("Submitted successfully:", await response.json());
+      
+      // move to dashboard on login success
+      navigate({ to: "/dashboard" });
+
     } catch (error) {
-      console.error("Submission failed:", error);
+      console.error("Login failed:", error);
     }
   }
 

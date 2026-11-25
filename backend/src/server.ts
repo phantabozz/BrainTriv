@@ -1,5 +1,6 @@
 import express, { type Express, type Request, type Response } from "express"
 import cors from "cors"
+import { authRouter } from "@/routes/authRoutes"
 
 
 const PORT = process.env.PORT || 3000;
@@ -12,6 +13,8 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+app.use("/api/auth", authRouter);
+
 
 
 app.get("/", (req: Request, res: Response) => {
@@ -19,17 +22,6 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 
-app.post("/login", (req: Request, res: Response) => {
-  const data = req.body;
-  console.log(data);
-  return res.json({message: "login response sent back!"});
-});
-
-app.post("/register", (req: Request, res: Response) => {
-  const data = req.body;
-  console.log(data);
-  return res.json({message: "register response sent back!"});
-});
 
 
 app.listen(PORT, () => {
